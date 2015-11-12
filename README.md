@@ -2,6 +2,7 @@
 
 基于**OAuth2**对业务接口进行调用授权，回发数据统一为**JSON**格式，业务请求数据需要使用商户的**App Secret**签名。
 
+
 ## 设备授权
 新安装 App 端的设备需要通过平台管理员的授权获得接口API接口的关键凭证。
 > 接口：/device/authorize（**提示：此接口调用时不需要OAuth2授权及签名**）
@@ -29,6 +30,7 @@
 > 接口：/token
 
 调用参数：
+
 HTTP请求头中将 app_id 与 app_secret使用“:”拼接后使用**Base64**编码，使用**[HTTP基本认证](https://zh.wikipedia.org/wiki/HTTP%E5%9F%BA%E6%9C%AC%E8%AE%A4%E8%AF%81)**
 
 ```
