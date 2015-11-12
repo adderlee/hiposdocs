@@ -64,6 +64,7 @@ Authorization: Basic YzRjYTQyMzhhMGI5MjM4MjBkY2M1MDlhNmY3NTg0OWI6YzQwOTY2ZThmNDB
 
 | 名称        | 类型        | 说明          | 示例                              |
 | :---------- | :---------- | :------------ | :-------------------------------- |
+| app_id      | string      | App ID        | c4ca4238a0b923820dcc509a6f75849b  |
 | merchant_id | string      | 商户ID        | 1                                 |
 | store_id    | string      | 门店ID        | 5642e198a4826ee461311319          |
 | device_id   | string      | 设备唯一标识  | f5bb0c8de146c67b44babbf4e6584cc0  |
