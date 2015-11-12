@@ -2,8 +2,10 @@
 
 基于**OAuth2**对业务接口进行调用授权，回发数据统一为**JSON**格式，业务请求数据需要使用商户的**App Secret**签名。
 
+## 基本API接口
+调用业务接口前需要获得设备授权及AccessToken。
 
-## 设备授权
+### 设备授权
 新安装 App 端的设备需要通过平台管理员的授权获得接口API接口的关键凭证。
 > 接口：/device/authorize（**提示：此接口调用时不需要OAuth2授权及签名**）
 
@@ -29,7 +31,7 @@
 }
 ```
 
-## 获取Access Token
+### 获取Access Token
 在正式调用业务接口前需要通过OAuth2获得**Access Token**，并且具有一定的有效期，再次调用业务接口前需要检查**Access Token**是否已经**过期**，否则需要重新获取。
 > 接口：/token
 
@@ -49,3 +51,28 @@ Authorization: Basic YzRjYTQyMzhhMGI5MjM4MjBkY2M1MDlhNmY3NTg0OWI6YzQwOTY2ZThmNDB
   "expires_in": 3600
 }
 ```
+
+## 业务API接口
+完成与商户业务相关的API接口，如交易、结算等。
+>所有业务接口设调用时均需要提供 Bearer Token（即 Access Token）
+
+### 发起收款交易
+向平台发起收款交易，支持现金、微信及支付宝等支付方式。
+> 接口：/transaction
+
+调用参数：
+
+| 名称        | 类型        | 说明          | 示例                              |
+| :---------- | :---------- | :------------ | :-------------------------------- |
+| merchant_id | string      | 商户ID        | 1                                 |
+| store_id    | string      | 门店ID        | 5642e198a4826ee461311319          |
+| device_id   | string      | 设备唯一标识  | f5bb0c8de146c67b44babbf4e6584cc0  |
+| job_id      | string      | 工号          | 1001                              |
+| amount      | number      | 金额          | 16.8                              |
+| method      | string      | 付款方式      | cash（还可以是 wxpay, alipay）    |
+
+正确返回数据：
+```
+
+```
+
