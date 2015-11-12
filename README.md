@@ -28,7 +28,7 @@
 在正式调用业务接口前需要通过OAuth2获得**Access Token**，并且具有一定的有效期，再次调用业务接口前需要检查**Access Token**是否已经**过期**，否则需要重新获取。
 > 接口：/token
 
-HTTP请求头：将 app_id 与 app_secret使用“:”拼接后使用Base64编码
+调用参数：HTTP请求头中将 app_id 与 app_secret使用“:”拼接后使用Base64编码，使用**[HTTP基本认证](https://zh.wikipedia.org/wiki/HTTP%E5%9F%BA%E6%9C%AC%E8%AE%A4%E8%AF%81)**
 
 ```
 Authorization: Basic YzRjYTQyMzhhMGI5MjM4MjBkY2M1MDlhNmY3NTg0OWI6YzQwOTY2ZThmNDBhNDU1NDI1NjEwNjA2NTYxODE5ZmEyYTU3OGMzMg==
