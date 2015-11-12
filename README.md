@@ -19,9 +19,13 @@
 ```
 {
   "merchant_id": "1",
+  "merchant_name": "海商咖啡",
+  "merchant_logo": "http://him.hishop.com.cn:10800/assets/images/merchants/1.jpg",
+  "store_id": "5642e198a4826ee461311319",
+  "store_name", "大剧院旗舰店",
   "app_id": "c4ca4238a0b923820dcc509a6f75849b",
   "app_secret": "c40966e8f40a455425610606561819fa2a578c32",
-  "store_id": "5642e198a4826ee461311319"
+  "expires": "2016-11-11 23:59:59",
 }
 ```
 
