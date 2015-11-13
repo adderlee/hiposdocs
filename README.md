@@ -5,7 +5,7 @@
 ## 基本API接口
 调用业务接口前需要获得设备授权及AccessToken。
 
-### 设备授权
+- ### 设备授权
 新安装 App 端的设备需要通过平台管理员的授权获得接口API接口的关键凭证。
 > 接口：/device/authorize（**提示：此接口调用时不需要OAuth2授权及签名**）
 
@@ -31,7 +31,7 @@
 }
 ```
 
-### 获取Access Token
+- ### 获取Access Token
 在正式调用业务接口前需要通过OAuth2获得**Access Token**，并且具有一定的有效期，再次调用业务接口前需要检查**Access Token**是否已经**过期**，否则需要重新获取。
 > 接口：/token
 
@@ -75,7 +75,7 @@ Authorization: Basic YzRjYTQyMzhhMGI5MjM4MjBkY2M1MDlhNmY3NTg0OWI6YzQwOTY2ZThmNDB
 最后向接口POST的数据如下：
 >a=1&b=2&rnd=1447386720779&z=3&sign=cf81e8e0d756db9f0e301bf0b64d8525ef3edf85
 
-### 发起收款交易
+- ### 发起收款交易
 向平台发起收款交易，获得全平台唯一交易号。
 > 接口：/transaction/create
 
