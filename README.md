@@ -124,3 +124,21 @@ Authorization: Basic YzRjYTQyMzhhMGI5MjM4MjBkY2M1MDlhNmY3NTg0OWI6YzQwOTY2ZThmNDB
 }
 ```
 
+### 请求微信扫码支付
+生成微信扫码支付的二维条形码。
+> 接口：/transaction/getqr/weixin
+
+调用参数：
+
+| 名称        | 类型        | 说明          | 示例                              |
+| :---------- | :---------- | :------------ | :-------------------------------- |
+| app_id      | string      | App ID        | c4ca4238a0b923820dcc509a6f75849b  |
+| tid         | string      | 交易号        | 8600000100001800000040            |
+
+正确返回数据：
+用于生成微信扫码付的二维码字符串。
+```
+{
+    "result": "weixin://wxpay/bizpayurl?sign=FBA2E678AC50D9FEB6250413079FED43&appid=wx6f38b684087b31c2&mch_id=127764401&product_id=8600000100001800000092&time_stamp=1447406069&nonce_str=37sA8E"
+}
+```
