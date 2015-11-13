@@ -59,12 +59,16 @@ Authorization: Basic YzRjYTQyMzhhMGI5MjM4MjBkY2M1MDlhNmY3NTg0OWI6YzQwOTY2ZThmNDB
 ### 业务接口签名规范
 原始业务数据如：
 >a=1&b=2&z=3
+
 加入随机时间码：
 >rnd=1447386720779
+
 按字母序形成待签名字符串：
 >a=1&b=2&rnd=1447386720779&z=3
+
 将"sign=[App密钥]"拼接到此字符串的最后面，形成：
 >a=1&b=2&rnd=1447386720779&z=3&sign=c40966e8f40a455425610606561819fa2a578c32
+
 将此字符串进行SHA1运算，得到签名：
 >sign = SHA1('a=1&b=2&rnd=1447386720779&z=3&sign=c40966e8f40a455425610606561819fa2a578c32')
 
