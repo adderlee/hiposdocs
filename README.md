@@ -57,8 +57,8 @@ Authorization: Basic YzRjYTQyMzhhMGI5MjM4MjBkY2M1MDlhNmY3NTg0OWI6YzQwOTY2ZThmNDB
 >所有业务接口设调用时均需要提供 Bearer Token（即 Access Token）
 
 ### 发起收款交易
-向平台发起收款交易，支持现金、微信及支付宝等支付方式。
-> 接口：/transaction
+向平台发起收款交易，获得全平台唯一交易号。
+> 接口：/transaction/create
 
 调用参数：
 
@@ -70,10 +70,20 @@ Authorization: Basic YzRjYTQyMzhhMGI5MjM4MjBkY2M1MDlhNmY3NTg0OWI6YzQwOTY2ZThmNDB
 | device_id   | string      | 设备唯一标识  | f5bb0c8de146c67b44babbf4e6584cc0  |
 | job_id      | string      | 工号          | 1001                              |
 | amount      | number      | 金额          | 16.8                              |
-| method      | string      | 付款方式      | cash（还可以是 wxpay, alipay）    |
 
 正确返回数据：
 ```
-
+{
+  "result": {
+    "__v": 0,
+    "_id": "8600000100000200000011",
+    "pay_expire": "2015-11-13T04:07:04.512Z",
+    "created_at": "2015-11-13T03:37:04.544Z",
+    "amount": 0.01,
+    "clerk_id": "5642e198a4826ee46131131a",
+    "store_id": "5642e198a4826ee461311319",
+    "stm_id": "86000001000002"
+  }
+}
 ```
 
