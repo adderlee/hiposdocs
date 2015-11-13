@@ -56,6 +56,17 @@ Authorization: Basic YzRjYTQyMzhhMGI5MjM4MjBkY2M1MDlhNmY3NTg0OWI6YzQwOTY2ZThmNDB
 完成与商户业务相关的API接口，如交易、结算等。
 >所有业务接口设调用时均需要提供 Bearer Token（即 Access Token）
 
+### 业务接口签名规范
+原数据如：a=1&b=2&z=3，加入随机时间码：rnd=1447386720779，按字母序形成待签名字符串：
+a=1&b=2&rnd=1447386720779&z=3
+将"sign=[App密钥]"拼接到此字符串的最后面，形成：
+a=1&b=2&rnd=1447386720779&z=3&sign=c40966e8f40a455425610606561819fa2a578c32
+将此字符串进行SHA1运算，得到签名：
+sign = SHA1('a=1&b=2&rnd=1447386720779&z=3&sign=c40966e8f40a455425610606561819fa2a578c32')
+
+最后向接口POST的数据如下：
+a=1&b=2&rnd=1447386720779&z=3&sign=cf81e8e0d756db9f0e301bf0b64d8525ef3edf85
+
 ### 发起收款交易
 向平台发起收款交易，获得全平台唯一交易号。
 > 接口：/transaction/create
