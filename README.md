@@ -142,3 +142,22 @@ Authorization: Basic YzRjYTQyMzhhMGI5MjM4MjBkY2M1MDlhNmY3NTg0OWI6YzQwOTY2ZThmNDB
     "result": "weixin://wxpay/bizpayurl?sign=FBA2E678AC50D9FEB6250413079FED43&appid=wx6f38b684087b31c2&mch_id=127764401&product_id=8600000100001800000092&time_stamp=1447406069&nonce_str=37sA8E"
 }
 ```
+
+### 微信刷卡支付
+扫描用户微信钱包中刷卡条码（二维码）完成微信支付交易。
+> 接口：/transaction/weixin/micropay
+
+调用参数：
+
+| 名称        | 类型        | 说明          | 示例                              |
+| :---------- | :---------- | :------------ | :-------------------------------- |
+| app_id      | string      | App ID        | c4ca4238a0b923820dcc509a6f75849b  |
+| tid         | string      | 交易号        | 8600000100001800000040            |
+| auth_code   | string      | 条码或二维码  | 120061098828009406                |
+
+正确返回数据：
+```
+{
+    "result": "ok"
+}
+```
