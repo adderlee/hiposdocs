@@ -126,7 +126,7 @@ Authorization: Basic YzRjYTQyMzhhMGI5MjM4MjBkY2M1MDlhNmY3NTg0OWI6YzQwOTY2ZThmNDB
 
 ### 请求微信扫码支付
 生成微信扫码支付的二维条形码。
-> 接口：/transaction/getqr/weixin
+> 接口：/transaction/weixin/qr/get
 
 调用参数：
 
