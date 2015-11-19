@@ -161,3 +161,41 @@ Authorization: Basic YzRjYTQyMzhhMGI5MjM4MjBkY2M1MDlhNmY3NTg0OWI6YzQwOTY2ZThmNDB
     "result": "ok"
 }
 ```
+
+### 请求支付宝扫码支付
+将支付宝返回的二维码信息展示给用户，由用户扫描二维码完成订单支付。
+> 接口：/transaction/alipay/qr/get
+
+调用参数：
+
+| 名称        | 类型        | 说明          | 示例                              |
+| :---------- | :---------- | :------------ | :-------------------------------- |
+| app_id      | string      | App ID        | c4ca4238a0b923820dcc509a6f75849b  |
+| tid         | string      | 交易号        | 8600000100001800000040            |
+
+正确返回数据：
+用于生成支付宝扫码付的二维码字符串。
+```
+{
+    "result": "https://qr.alipay.com/baxcwo4myomqqelrb4"
+}
+```
+
+### 支付宝条码支付
+收银员使用扫码设备读取用户手机支付宝“付款码”后，将二维码或条码信息通过本接口上送至支付宝发起支付。
+> 接口：/transaction/alipay/barcode
+
+调用参数：
+
+| 名称        | 类型        | 说明          | 示例                              |
+| :---------- | :---------- | :------------ | :-------------------------------- |
+| app_id      | string      | App ID        | c4ca4238a0b923820dcc509a6f75849b  |
+| tid         | string      | 交易号        | 8600000100001800000040            |
+| auth_code   | string      | 条码或二维码  | 120061098828009406                |
+
+正确返回数据：
+```
+{
+    "result": "ok"
+}
+```
