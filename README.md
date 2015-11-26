@@ -2,6 +2,12 @@
 
 基于**OAuth2**对业务接口进行调用授权，回发数据统一为**JSON**格式，业务请求数据需要使用商户的**App Secret**签名。
 
+* [`基本API接口`](#基本API接口)
+* [`API接口签名规范`](#API接口签名规范)
+* [`业务API接口`](#业务API接口)
+* [`数据API接口`](#数据API接口)
+
+<a name="基本API接口" />
 ## 基本API接口
 调用业务接口前需要获得设备授权及AccessToken，本组接口向App提供这种能力。
 
@@ -51,7 +57,7 @@ Authorization: Basic YzRjYTQyMzhhMGI5MjM4MjBkY2M1MDlhNmY3NTg0OWI6YzQwOTY2ZThmNDB
   "expires_in": 3600
 }
 ```
-
+<a name="API接口签名规范" />
 ## API接口签名规范
 原始业务数据如：
 >a=1&b=2&z=3
@@ -71,6 +77,7 @@ Authorization: Basic YzRjYTQyMzhhMGI5MjM4MjBkY2M1MDlhNmY3NTg0OWI6YzQwOTY2ZThmNDB
 最后向接口POST的数据如下：
 >a=1&b=2&rnd=1447386720779&z=3&sign=cf81e8e0d756db9f0e301bf0b64d8525ef3edf85
 
+<a name="业务API接口" />
 ## 业务API接口
 完成与商户业务相关的API接口，如交易、结算等。
 >所有业务接口设调用时均需要提供 Bearer Token（即 Access Token）
@@ -218,6 +225,7 @@ Authorization: Basic YzRjYTQyMzhhMGI5MjM4MjBkY2M1MDlhNmY3NTg0OWI6YzQwOTY2ZThmNDB
 }
 ```
 
+<a name="数据API接口" />
 ## 数据API接口
 调用数据接口前需要获得设备授权及AccessToken。
 
