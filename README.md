@@ -356,7 +356,7 @@ Authorization: Basic YzRjYTQyMzhhMGI5MjM4MjBkY2M1MDlhNmY3NTg0OWI6YzQwOTY2ZThmNDB
                     "trades": 35
                 },
                 {
-                    "stm_id": "86000001000002",
+                    "stm_id": "86000001000003",
                     "created_at": "2015-11-23 15:59:00",
                     "settled_at": "2015-11-23 22:58:30",
                     "amount": 367.1,
@@ -398,7 +398,7 @@ Authorization: Basic YzRjYTQyMzhhMGI5MjM4MjBkY2M1MDlhNmY3NTg0OWI6YzQwOTY2ZThmNDB
             "trades": 143,
             "settlements": [
                 {
-                    "stm_id": "86000001000001",
+                    "stm_id": "86000001000003",
                     "created_at": "2015-11-25 08:03:49",
                     "settled_at": "2015-11-25 11:58:30",
                     "amount": 123.5,
@@ -412,7 +412,7 @@ Authorization: Basic YzRjYTQyMzhhMGI5MjM4MjBkY2M1MDlhNmY3NTg0OWI6YzQwOTY2ZThmNDB
                     "trades": 35
                 },
                 {
-                    "stm_id": "86000001000002",
+                    "stm_id": "86000001000003",
                     "created_at": "2015-11-25 15:59:00",
                     "settled_at": "2015-11-25 22:58:30",
                     "amount": 367.1,
@@ -421,5 +421,88 @@ Authorization: Basic YzRjYTQyMzhhMGI5MjM4MjBkY2M1MDlhNmY3NTg0OWI6YzQwOTY2ZThmNDB
             ]
         }
     ]
+}
+```
+
+### 帐单明细
+返回指定结算帐单及相关交易详情信息。
+> 接口：/data/bill/detail
+
+调用参数：
+
+| 名称        | 类型        | 说明          | 示例                              |
+| :---------- | :---------- | :------------ | :-------------------------------- |
+| app_id      | string      | App ID        | c4ca4238a0b923820dcc509a6f75849b  |
+| device_id   | string      | 设备唯一标识  | 3826ef14abfa52ca                  |
+| stm_id      | string      | 结算帐单ID    | 86000001000003                    |
+
+正确返回数据：
+```
+{
+    "result": {
+        "stm_id": "86000001000002",
+        "created_at": "2015-11-25 15:59:00",
+        "settled_at": "2015-11-25 22:58:30",
+        "amount": 367.1,
+        "trades": 3,
+        "transactions": [
+            {
+                "tid": "8600000100000100000009",
+                "paid_at": "2015-11-25 22:58:30",
+                "amount": 121.5
+            },
+            {
+                "tid": "8600000100000100000010",
+                "paid_at": "2015-11-25 23:01:12",
+                "amount": 98.6
+            },
+            {
+                "tid": "8600000100000100000011",
+                "paid_at": "2015-11-25 23:11:34",
+                "amount": 147
+            }
+        ]
+    }
+}
+```
+
+### 当前帐单明细
+返回当前正在进行中结算帐单及相关交易详情信息。
+> 接口：/data/bill/current
+
+调用参数：
+
+| 名称        | 类型        | 说明          | 示例                              |
+| :---------- | :---------- | :------------ | :-------------------------------- |
+| app_id      | string      | App ID        | c4ca4238a0b923820dcc509a6f75849b  |
+| device_id   | string      | 设备唯一标识  | 3826ef14abfa52ca                  |
+
+正确返回数据：
+```
+{
+    "result": {
+        "stm_id": "86000001000002",
+        "created_at": "2015-11-25 15:59:00",
+        "settled_at": "2015-11-25 22:58:30",
+        "amount": 367.1,
+        "trades": 3,
+        "transactions": [
+            {
+                "tid": "8600000100000100000009",
+                "paid_at": "2015-11-25 22:58:30",
+                "amount": 121.5
+            },
+            {
+                "tid": "8600000100000100000010",
+                "paid_at": "2015-11-25 23:01:12",
+                "amount": 98.6
+            },
+            {
+                "tid": "8600000100000100000011",
+                "paid_at": "2015-11-25 23:11:34",
+                "amount": 147
+            }
+        ]
+    }
 }
 ```
