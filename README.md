@@ -11,11 +11,11 @@
 
 调用参数：
 
-| 名称        | 类型        | 说明         | 示例                                |
-| :---------- | :---------- | :----------- | :---------------------------------- |
-| auth_code   | string      | 授权码       |  12f8b2b9a74c4591a67a44b9ba0647e9   |
-| device_id   | string      | 设备唯一标识 |  f5bb0c8de146c67b44babbf4e6584cc0   |
-| version     | string      | App版本      |  1.0.0.1                            |
+| 名称        | 类型        | 说明         | 示例                                 |
+| :---------- | :---------- | :----------- | :----------------------------------- |
+| auth_code   | string      | 授权码       |  12f8b2b9a74c4591a67a44b9ba0647e9    |
+| device_id   | string      | 设备唯一标识 |  3826ef14abfa52ca                    |
+| version     | string      | App版本      |  1.0.0.1                             |
 
 正确返回数据：
 ```
@@ -86,7 +86,7 @@ Authorization: Basic YzRjYTQyMzhhMGI5MjM4MjBkY2M1MDlhNmY3NTg0OWI6YzQwOTY2ZThmNDB
 | app_id      | string      | App ID        | c4ca4238a0b923820dcc509a6f75849b  |
 | merchant_id | string      | 商户ID        | 1                                 |
 | store_id    | string      | 门店ID        | 5642e198a4826ee461311319          |
-| device_id   | string      | 设备唯一标识  | f5bb0c8de146c67b44babbf4e6584cc0  |
+| device_id   | string      | 设备唯一标识  | 3826ef14abfa52ca                  |
 | job_id      | string      | 工号          | 1001                              |
 | amount      | number      | 金额          | 16.8                              |
 
@@ -212,6 +212,7 @@ Authorization: Basic YzRjYTQyMzhhMGI5MjM4MjBkY2M1MDlhNmY3NTg0OWI6YzQwOTY2ZThmNDB
 | 名称        | 类型        | 说明          | 示例                              |
 | :---------- | :---------- | :------------ | :-------------------------------- |
 | app_id      | string      | App ID        | c4ca4238a0b923820dcc509a6f75849b  |
+| device_id   | string      | 设备唯一标识  | 3826ef14abfa52ca                  |
 | on          | string      | 交易日期      | 20151126                          |
 
 正确返回数据：
@@ -249,6 +250,7 @@ Authorization: Basic YzRjYTQyMzhhMGI5MjM4MjBkY2M1MDlhNmY3NTg0OWI6YzQwOTY2ZThmNDB
 | 名称        | 类型        | 说明          | 示例                              |
 | :---------- | :---------- | :------------ | :-------------------------------- |
 | app_id      | string      | App ID        | c4ca4238a0b923820dcc509a6f75849b  |
+| device_id   | string      | 设备唯一标识  | 3826ef14abfa52ca                  |
 | on          | string      | 交易日期      | 20151126                          |
 
 正确返回数据：
@@ -314,5 +316,104 @@ Authorization: Basic YzRjYTQyMzhhMGI5MjM4MjBkY2M1MDlhNmY3NTg0OWI6YzQwOTY2ZThmNDB
             ]
         }
     }
+}
+```
+
+### 帐单列表
+返回指定日期范围内的结算帐单列表，含金额与交易笔数及小计。
+> 接口：/data/bill/list
+
+调用参数：
+
+| 名称        | 类型        | 说明          | 示例                              |
+| :---------- | :---------- | :------------ | :-------------------------------- |
+| app_id      | string      | App ID        | c4ca4238a0b923820dcc509a6f75849b  |
+| device_id   | string      | 设备唯一标识  | 3826ef14abfa52ca                  |
+| from        | string      | 起始日期      | 20151101                          |
+| to          | string      | 截止日期      | 20151130                          |
+
+正确返回数据：
+```
+{
+    "result": [
+        {
+            "on": "2015-11-23",
+            "settlements": [
+                {
+                    "stm_id": "86000001000001",
+                    "created_at": "2015-11-23 08:03:49",
+                    "settled_at": "2015-11-23 11:58:30",
+                    "amount": 123.5,
+                    "trades": 21
+                },
+                {
+                    "stm_id": "86000001000002",
+                    "created_at": "2015-11-23 11:59:00",
+                    "settled_at": "2015-11-23 15:58:30",
+                    "amount": 160.9,
+                    "trades": 35
+                },
+                {
+                    "stm_id": "86000001000002",
+                    "created_at": "2015-11-23 15:59:00",
+                    "settled_at": "2015-11-23 22:58:30",
+                    "amount": 367.1,
+                    "trades": 87
+                }
+            ]
+        },
+        {
+            "on": "2015-11-24",
+            "settlements": [
+                {
+                    "stm_id": "86000001000001",
+                    "created_at": "2015-11-24 08:03:49",
+                    "settled_at": "2015-11-24 11:58:30",
+                    "amount": 123.5,
+                    "trades": 21
+                },
+                {
+                    "stm_id": "86000001000002",
+                    "created_at": "2015-11-24 11:59:00",
+                    "settled_at": "2015-11-24 15:58:30",
+                    "amount": 160.9,
+                    "trades": 35
+                },
+                {
+                    "stm_id": "86000001000002",
+                    "created_at": "2015-11-24 15:59:00",
+                    "settled_at": "2015-11-24 22:58:30",
+                    "amount": 367.1,
+                    "trades": 87
+                }
+            ]
+        },
+        {
+            "on": "2015-11-25",
+            "settlements": [
+                {
+                    "stm_id": "86000001000001",
+                    "created_at": "2015-11-25 08:03:49",
+                    "settled_at": "2015-11-25 11:58:30",
+                    "amount": 123.5,
+                    "trades": 21
+                },
+                {
+                    "stm_id": "86000001000002",
+                    "created_at": "2015-11-25 11:59:00",
+                    "settled_at": "2015-11-25 15:58:30",
+                    "amount": 160.9,
+                    "trades": 35
+                },
+                {
+                    "stm_id": "86000001000002",
+                    "created_at": "2015-11-25 15:59:00",
+                    "settled_at": "2015-11-25 22:58:30",
+                    "amount": 367.1,
+                    "trades": 87
+                }
+            ]
+        }
+    ]
 }
 ```
