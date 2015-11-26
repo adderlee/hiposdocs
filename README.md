@@ -338,6 +338,8 @@ Authorization: Basic YzRjYTQyMzhhMGI5MjM4MjBkY2M1MDlhNmY3NTg0OWI6YzQwOTY2ZThmNDB
     "result": [
         {
             "on": "2015-11-23",
+            "amount": 651.5,
+            "trades": 143,
             "settlements": [
                 {
                     "stm_id": "86000001000001",
@@ -364,6 +366,8 @@ Authorization: Basic YzRjYTQyMzhhMGI5MjM4MjBkY2M1MDlhNmY3NTg0OWI6YzQwOTY2ZThmNDB
         },
         {
             "on": "2015-11-24",
+            "amount": 651.5,
+            "trades": 143,
             "settlements": [
                 {
                     "stm_id": "86000001000001",
@@ -390,6 +394,8 @@ Authorization: Basic YzRjYTQyMzhhMGI5MjM4MjBkY2M1MDlhNmY3NTg0OWI6YzQwOTY2ZThmNDB
         },
         {
             "on": "2015-11-25",
+            "amount": 651.5,
+            "trades": 143,
             "settlements": [
                 {
                     "stm_id": "86000001000001",
