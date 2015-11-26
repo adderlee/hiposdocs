@@ -106,6 +106,24 @@ Authorization: Basic YzRjYTQyMzhhMGI5MjM4MjBkY2M1MDlhNmY3NTg0OWI6YzQwOTY2ZThmNDB
 }
 ```
 
+### 交班结算
+结算当前帐单
+> 接口：/transaction/settle
+
+调用参数：
+
+| 名称        | 类型        | 说明          | 示例                              |
+| :---------- | :---------- | :------------ | :-------------------------------- |
+| app_id      | string      | App ID        | c4ca4238a0b923820dcc509a6f75849b  |
+| device_id   | string      | 设备唯一标识  | 3826ef14abfa52ca                  |
+
+正确返回数据：
+```
+{
+  "result": "ok"
+}
+```
+
 ### 确认现金收款交易
 向平台确认正在进行中的现金收款交易，操作成功后，此交易即会关闭。
 > 接口：/transaction/confirm/cash
