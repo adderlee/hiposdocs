@@ -475,17 +475,20 @@ Authorization: Basic YzRjYTQyMzhhMGI5MjM4MjBkY2M1MDlhNmY3NTg0OWI6YzQwOTY2ZThmNDB
             {
                 "tid": "8600000100000100000009",
                 "paid_at": "2015-11-25 22:58:30",
-                "amount": 121.5
+                "amount": 121.5,
+                "method": "weixin"
             },
             {
                 "tid": "8600000100000100000010",
                 "paid_at": "2015-11-25 23:01:12",
-                "amount": 98.6
+                "amount": 98.6,
+                "method": "alipay"
             },
             {
                 "tid": "8600000100000100000011",
                 "paid_at": "2015-11-25 23:11:34",
-                "amount": 147
+                "amount": 147,
+                "method": "cash"
             }
         ]
     }
@@ -516,17 +519,20 @@ Authorization: Basic YzRjYTQyMzhhMGI5MjM4MjBkY2M1MDlhNmY3NTg0OWI6YzQwOTY2ZThmNDB
             {
                 "tid": "8600000100000100000009",
                 "paid_at": "2015-11-25 22:58:30",
-                "amount": 121.5
+                "amount": 121.5,
+                "method": "weixin"
             },
             {
                 "tid": "8600000100000100000010",
                 "paid_at": "2015-11-25 23:01:12",
-                "amount": 98.6
+                "amount": 98.6,
+                "method": "alipay"
             },
             {
                 "tid": "8600000100000100000011",
                 "paid_at": "2015-11-25 23:11:34",
-                "amount": 147
+                "amount": 147,
+                "method": "cash"
             }
         ]
     }
