@@ -471,8 +471,22 @@ Authorization: Basic YzRjYTQyMzhhMGI5MjM4MjBkY2M1MDlhNmY3NTg0OWI6YzQwOTY2ZThmNDB
         "stm_id": "86000001000002",
         "created_at": "2015-11-25 15:59:00",
         "settled_at": "2015-11-25 22:58:30",
-        "amount": 367.1,
+        "amount": 0.18,
         "trades": 3,
+        "total": {
+            "cash": {
+                "amount": 0.12,
+                "trades": 1
+            },
+            "weixin": {
+                "amount": 0.01,
+                "trades": 1
+            },
+            "alipay": {
+                "amount": 0.05,
+                "trades": 1
+            }
+        }
         "transactions": [
             {
                 "tid": "8600000100000100000009",
@@ -506,7 +520,9 @@ Authorization: Basic YzRjYTQyMzhhMGI5MjM4MjBkY2M1MDlhNmY3NTg0OWI6YzQwOTY2ZThmNDB
 | 名称        | 类型        | 说明          | 示例                              |
 | :---------- | :---------- | :------------ | :-------------------------------- |
 | app_id      | string      | App ID        | c4ca4238a0b923820dcc509a6f75849b  |
+| store_id    | string      | 门店ID        | 5642e198a4826ee461311319          |
 | device_id   | string      | 设备唯一标识  | 3826ef14abfa52ca                  |
+| job_id      | string      | 工号          | 1001                              |
 
 正确返回数据：
 ```
@@ -515,8 +531,22 @@ Authorization: Basic YzRjYTQyMzhhMGI5MjM4MjBkY2M1MDlhNmY3NTg0OWI6YzQwOTY2ZThmNDB
         "stm_id": "86000001000002",
         "created_at": "2015-11-25 15:59:00",
         "settled_at": "2015-11-25 22:58:30",
-        "amount": 367.1,
+        "amount": 0.18,
         "trades": 3,
+        "total": {
+            "cash": {
+                "amount": 0.12,
+                "trades": 1
+            },
+            "weixin": {
+                "amount": 0.01,
+                "trades": 1
+            },
+            "alipay": {
+                "amount": 0.05,
+                "trades": 1
+            }
+        }
         "transactions": [
             {
                 "tid": "8600000100000100000009",
