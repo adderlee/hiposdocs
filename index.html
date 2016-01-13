@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Hiposdocs by leeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Hiposdocs</h1>
+      <h2 class="project-tagline">HiPOS App 接口文档</h2>
+      <a href="https://github.com/leeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee/hiposdocs" class="btn">View on GitHub</a>
+      <a href="https://github.com/leeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee/hiposdocs/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/leeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee/hiposdocs/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="hipos-app-接口文档" class="anchor" href="#hipos-app-%E6%8E%A5%E5%8F%A3%E6%96%87%E6%A1%A3" aria-hidden="true"><span class="octicon octicon-link"></span></a>HiPOS App 接口文档</h1>
+
+<p>基于<strong>OAuth2</strong>对业务接口进行调用授权，回发数据统一为<strong>JSON</strong>格式，业务请求数据需要使用商户的<strong>App Secret</strong>签名。</p>
+
+<ul>
+<li><a href="#%E5%9F%BA%E6%9C%ACAPI%E6%8E%A5%E5%8F%A3"><code>基本API接口</code></a></li>
+<li><a href="#API%E6%8E%A5%E5%8F%A3%E7%AD%BE%E5%90%8D%E8%A7%84%E8%8C%83"><code>API接口签名规范</code></a></li>
+<li><a href="#%E4%B8%9A%E5%8A%A1API%E6%8E%A5%E5%8F%A3"><code>业务API接口</code></a></li>
+<li><a href="#%E6%95%B0%E6%8D%AEAPI%E6%8E%A5%E5%8F%A3"><code>数据API接口</code></a></li>
+</ul>
+
+<p><a name="%E5%9F%BA%E6%9C%ACAPI%E6%8E%A5%E5%8F%A3"></a></p>
+
+<h2>
+<a id="基本api接口" class="anchor" href="#%E5%9F%BA%E6%9C%ACapi%E6%8E%A5%E5%8F%A3" aria-hidden="true"><span class="octicon octicon-link"></span></a>基本API接口</h2>
+
+<p>调用业务接口前需要获得设备授权及AccessToken，本组接口向App提供这种能力。</p>
+
+<h3>
+<a id="设备授权" class="anchor" href="#%E8%AE%BE%E5%A4%87%E6%8E%88%E6%9D%83" aria-hidden="true"><span class="octicon octicon-link"></span></a>设备授权</h3>
+
+<p>新安装 App 端的设备需要通过平台管理员的授权获得接口API接口的关键凭证。</p>
+
+<blockquote>
+<p>接口：/device/authorize（<strong>提示：此接口调用时不需要OAuth2授权及签名</strong>）</p>
+</blockquote>
+
+<p>调用参数：</p>
+
+<table>
+<thead>
+<tr>
+<th align="left">名称</th>
+<th align="left">类型</th>
+<th align="left">说明</th>
+<th align="left">示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">auth_code</td>
+<td align="left">string</td>
+<td align="left">授权码</td>
+<td align="left">12f8b2b9a74c4591a67a44b9ba0647e9</td>
+</tr>
+<tr>
+<td align="left">device_id</td>
+<td align="left">string</td>
+<td align="left">设备唯一标识</td>
+<td align="left">3826ef14abfa52ca</td>
+</tr>
+<tr>
+<td align="left">version</td>
+<td align="left">string</td>
+<td align="left">App版本</td>
+<td align="left">1.0.0.1</td>
+</tr>
+</tbody>
+</table>
+
+<p>正确返回数据：</p>
+
+<pre><code>{
+  "merchant_id": "1",
+  "merchant_name": "海商咖啡",
+  "merchant_logo": "http://him.hishop.com.cn:10800/assets/images/merchants/1.jpg",
+  "store_id": "5642e198a4826ee461311319",
+  "store_name", "大剧院旗舰店",
+  "app_id": "c4ca4238a0b923820dcc509a6f75849b",
+  "app_secret": "c40966e8f40a455425610606561819fa2a578c32",
+  "expires": "2016-11-11 23:59:59",
+}
+</code></pre>
+
+<h3>
+<a id="获取access-token" class="anchor" href="#%E8%8E%B7%E5%8F%96access-token" aria-hidden="true"><span class="octicon octicon-link"></span></a>获取Access Token</h3>
+
+<p>在正式调用业务接口前需要通过OAuth2获得<strong>Access Token</strong>，并且具有一定的有效期，再次调用业务接口前需要检查<strong>Access Token</strong>是否已经<strong>过期</strong>，否则需要重新获取。</p>
+
+<blockquote>
+<p>接口：/token</p>
+</blockquote>
+
+<p>调用参数：</p>
+
+<p>HTTP请求头中将 app_id 与 app_secret使用“:”拼接后使用<strong>Base64</strong>编码，使用<strong><a href="https://zh.wikipedia.org/wiki/HTTP%E5%9F%BA%E6%9C%AC%E8%AE%A4%E8%AF%81">HTTP基本认证</a></strong></p>
+
+<pre><code>Authorization: Basic YzRjYTQyMzhhMGI5MjM4MjBkY2M1MDlhNmY3NTg0OWI6YzQwOTY2ZThmNDBhNDU1NDI1NjEwNjA2NTYxODE5ZmEyYTU3OGMzMg==
+</code></pre>
+
+<p>正确返回数据：</p>
+
+<pre><code>{
+  "token_type": "bearer",
+  "access_token": "f7420dad8e471ab7df0f6b4b646f9010aea3e131",
+  "expires_in": 3600
+}
+</code></pre>
+
+<p><a name="API%E6%8E%A5%E5%8F%A3%E7%AD%BE%E5%90%8D%E8%A7%84%E8%8C%83"></a></p>
+
+<h2>
+<a id="api接口签名规范" class="anchor" href="#api%E6%8E%A5%E5%8F%A3%E7%AD%BE%E5%90%8D%E8%A7%84%E8%8C%83" aria-hidden="true"><span class="octicon octicon-link"></span></a>API接口签名规范</h2>
+
+<p>原始业务数据如：</p>
+
+<blockquote>
+<p>a=1&amp;b=2&amp;z=3</p>
+</blockquote>
+
+<p>加入随机时间码：</p>
+
+<blockquote>
+<p>rnd=1447386720779</p>
+</blockquote>
+
+<p>按字母序形成待签名字符串：</p>
+
+<blockquote>
+<p>a=1&amp;b=2&amp;rnd=1447386720779&amp;z=3</p>
+</blockquote>
+
+<p>将"sign=[App密钥]"拼接到此字符串的最后面，形成：</p>
+
+<blockquote>
+<p>a=1&amp;b=2&amp;rnd=1447386720779&amp;z=3&amp;sign=c40966e8f40a455425610606561819fa2a578c32</p>
+</blockquote>
+
+<p>将此字符串进行SHA1运算，得到签名：</p>
+
+<blockquote>
+<p>sign = SHA1('a=1&amp;b=2&amp;rnd=1447386720779&amp;z=3&amp;sign=c40966e8f40a455425610606561819fa2a578c32')</p>
+</blockquote>
+
+<p>最后向接口POST的数据如下：</p>
+
+<blockquote>
+<p>a=1&amp;b=2&amp;rnd=1447386720779&amp;z=3&amp;sign=cf81e8e0d756db9f0e301bf0b64d8525ef3edf85</p>
+</blockquote>
+
+<p><a name="%E4%B8%9A%E5%8A%A1API%E6%8E%A5%E5%8F%A3"></a></p>
+
+<h2>
+<a id="业务api接口" class="anchor" href="#%E4%B8%9A%E5%8A%A1api%E6%8E%A5%E5%8F%A3" aria-hidden="true"><span class="octicon octicon-link"></span></a>业务API接口</h2>
+
+<p>完成与商户业务相关的API接口，如交易、结算等。</p>
+
+<blockquote>
+<p>所有业务接口设调用时均需要提供 Bearer Token（即 Access Token）</p>
+</blockquote>
+
+<h3>
+<a id="发起收款交易" class="anchor" href="#%E5%8F%91%E8%B5%B7%E6%94%B6%E6%AC%BE%E4%BA%A4%E6%98%93" aria-hidden="true"><span class="octicon octicon-link"></span></a>发起收款交易</h3>
+
+<p>向平台发起收款交易，获得全平台唯一交易号。</p>
+
+<blockquote>
+<p>接口：/transaction/create</p>
+</blockquote>
+
+<p>调用参数：</p>
+
+<table>
+<thead>
+<tr>
+<th align="left">名称</th>
+<th align="left">类型</th>
+<th align="left">说明</th>
+<th align="left">示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">app_id</td>
+<td align="left">string</td>
+<td align="left">App ID</td>
+<td align="left">c4ca4238a0b923820dcc509a6f75849b</td>
+</tr>
+<tr>
+<td align="left">merchant_id</td>
+<td align="left">string</td>
+<td align="left">商户ID</td>
+<td align="left">1</td>
+</tr>
+<tr>
+<td align="left">store_id</td>
+<td align="left">string</td>
+<td align="left">门店ID</td>
+<td align="left">5642e198a4826ee461311319</td>
+</tr>
+<tr>
+<td align="left">device_id</td>
+<td align="left">string</td>
+<td align="left">设备唯一标识</td>
+<td align="left">3826ef14abfa52ca</td>
+</tr>
+<tr>
+<td align="left">job_id</td>
+<td align="left">string</td>
+<td align="left">工号</td>
+<td align="left">1001</td>
+</tr>
+<tr>
+<td align="left">amount</td>
+<td align="left">number</td>
+<td align="left">金额</td>
+<td align="left">16.8</td>
+</tr>
+</tbody>
+</table>
+
+<p>正确返回数据：</p>
+
+<pre><code>{
+  "result": {
+    "__v": 0,
+    "_id": "8600000100000200000011",
+    "pay_expire": "2015-11-13T04:07:04.512Z",
+    "created_at": "2015-11-13T03:37:04.544Z",
+    "amount": 0.01,
+    "clerk_id": "5642e198a4826ee46131131a",
+    "store_id": "5642e198a4826ee461311319",
+    "stm_id": "86000001000002"
+  }
+}
+</code></pre>
+
+<h3>
+<a id="发起核销业务" class="anchor" href="#%E5%8F%91%E8%B5%B7%E6%A0%B8%E9%94%80%E4%B8%9A%E5%8A%A1" aria-hidden="true"><span class="octicon octicon-link"></span></a>发起核销业务</h3>
+
+<p>向平台发起二维码核销业务，获得全平台唯一交易号。</p>
+
+<blockquote>
+<p>接口：/transaction/qr</p>
+</blockquote>
+
+<p>调用参数：</p>
+
+<table>
+<thead>
+<tr>
+<th align="left">名称</th>
+<th align="left">类型</th>
+<th align="left">说明</th>
+<th align="left">示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">app_id</td>
+<td align="left">string</td>
+<td align="left">App ID</td>
+<td align="left">c4ca4238a0b923820dcc509a6f75849b</td>
+</tr>
+<tr>
+<td align="left">merchant_id</td>
+<td align="left">string</td>
+<td align="left">商户ID</td>
+<td align="left">1</td>
+</tr>
+<tr>
+<td align="left">store_id</td>
+<td align="left">string</td>
+<td align="left">门店ID</td>
+<td align="left">5642e198a4826ee461311319</td>
+</tr>
+<tr>
+<td align="left">device_id</td>
+<td align="left">string</td>
+<td align="left">设备唯一标识</td>
+<td align="left">3826ef14abfa52ca</td>
+</tr>
+<tr>
+<td align="left">job_id</td>
+<td align="left">string</td>
+<td align="left">工号</td>
+<td align="left">1001</td>
+</tr>
+<tr>
+<td align="left">code</td>
+<td align="left">string</td>
+<td align="left">二维码文本</td>
+<td align="left">YSC10011971</td>
+</tr>
+</tbody>
+</table>
+
+<p>正确返回数据：</p>
+
+<pre><code>// 二维码无效
+{
+  "error": "invalid code"
+}
+
+// 不需要支付
+{
+  "result": "ok"
+}
+
+// 需要支付
+{
+  "result": {
+    "__v": 0,
+    "_id": "8600000100000200000011",
+    "pay_expire": "2015-11-13T04:07:04.512Z",
+    "created_at": "2015-11-13T03:37:04.544Z",
+    "amount": 0.01,
+    "clerk_id": "5642e198a4826ee46131131a",
+    "store_id": "5642e198a4826ee461311319",
+    "stm_id": "86000001000002"
+  }
+}
+</code></pre>
+
+<h3>
+<a id="交班结算" class="anchor" href="#%E4%BA%A4%E7%8F%AD%E7%BB%93%E7%AE%97" aria-hidden="true"><span class="octicon octicon-link"></span></a>交班结算</h3>
+
+<p>结算当前帐单</p>
+
+<blockquote>
+<p>接口：/transaction/settle</p>
+</blockquote>
+
+<p>调用参数：</p>
+
+<table>
+<thead>
+<tr>
+<th align="left">名称</th>
+<th align="left">类型</th>
+<th align="left">说明</th>
+<th align="left">示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">app_id</td>
+<td align="left">string</td>
+<td align="left">App ID</td>
+<td align="left">c4ca4238a0b923820dcc509a6f75849b</td>
+</tr>
+<tr>
+<td align="left">store_id</td>
+<td align="left">string</td>
+<td align="left">门店ID</td>
+<td align="left">5642e198a4826ee461311319</td>
+</tr>
+<tr>
+<td align="left">device_id</td>
+<td align="left">string</td>
+<td align="left">设备唯一标识</td>
+<td align="left">3826ef14abfa52ca</td>
+</tr>
+<tr>
+<td align="left">job_id</td>
+<td align="left">string</td>
+<td align="left">工号</td>
+<td align="left">1001</td>
+</tr>
+</tbody>
+</table>
+
+<p>正确返回数据：</p>
+
+<pre><code>{
+  "result": "ok"
+}
+</code></pre>
+
+<h3>
+<a id="确认现金收款交易" class="anchor" href="#%E7%A1%AE%E8%AE%A4%E7%8E%B0%E9%87%91%E6%94%B6%E6%AC%BE%E4%BA%A4%E6%98%93" aria-hidden="true"><span class="octicon octicon-link"></span></a>确认现金收款交易</h3>
+
+<p>向平台确认正在进行中的现金收款交易，操作成功后，此交易即会关闭。</p>
+
+<blockquote>
+<p>接口：/transaction/confirm/cash</p>
+</blockquote>
+
+<p>调用参数：</p>
+
+<table>
+<thead>
+<tr>
+<th align="left">名称</th>
+<th align="left">类型</th>
+<th align="left">说明</th>
+<th align="left">示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">app_id</td>
+<td align="left">string</td>
+<td align="left">App ID</td>
+<td align="left">c4ca4238a0b923820dcc509a6f75849b</td>
+</tr>
+<tr>
+<td align="left">tid</td>
+<td align="left">string</td>
+<td align="left">交易号</td>
+<td align="left">8600000100001800000040</td>
+</tr>
+</tbody>
+</table>
+
+<p>正确返回数据：</p>
+
+<pre><code>{
+  "result": "ok"
+}
+</code></pre>
+
+<h3>
+<a id="请求微信扫码支付" class="anchor" href="#%E8%AF%B7%E6%B1%82%E5%BE%AE%E4%BF%A1%E6%89%AB%E7%A0%81%E6%94%AF%E4%BB%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>请求微信扫码支付</h3>
+
+<p>生成微信扫码支付的二维条形码。</p>
+
+<blockquote>
+<p>接口：/transaction/weixin/qr/get</p>
+</blockquote>
+
+<p>调用参数：</p>
+
+<table>
+<thead>
+<tr>
+<th align="left">名称</th>
+<th align="left">类型</th>
+<th align="left">说明</th>
+<th align="left">示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">app_id</td>
+<td align="left">string</td>
+<td align="left">App ID</td>
+<td align="left">c4ca4238a0b923820dcc509a6f75849b</td>
+</tr>
+<tr>
+<td align="left">tid</td>
+<td align="left">string</td>
+<td align="left">交易号</td>
+<td align="left">8600000100001800000040</td>
+</tr>
+</tbody>
+</table>
+
+<p>正确返回数据：
+用于生成微信扫码付的二维码字符串。</p>
+
+<pre><code>{
+    "result": "weixin://wxpay/bizpayurl?sign=FBA2E678AC50D9FEB6250413079FED43&amp;appid=wx6f38b684087b31c2&amp;mch_id=127764401&amp;product_id=8600000100001800000092&amp;time_stamp=1447406069&amp;nonce_str=37sA8E"
+}
+</code></pre>
+
+<h3>
+<a id="微信刷卡支付" class="anchor" href="#%E5%BE%AE%E4%BF%A1%E5%88%B7%E5%8D%A1%E6%94%AF%E4%BB%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>微信刷卡支付</h3>
+
+<p>扫描用户微信钱包中刷卡条码（二维码）完成微信支付交易。</p>
+
+<blockquote>
+<p>接口：/transaction/weixin/micropay</p>
+</blockquote>
+
+<p>调用参数：</p>
+
+<table>
+<thead>
+<tr>
+<th align="left">名称</th>
+<th align="left">类型</th>
+<th align="left">说明</th>
+<th align="left">示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">app_id</td>
+<td align="left">string</td>
+<td align="left">App ID</td>
+<td align="left">c4ca4238a0b923820dcc509a6f75849b</td>
+</tr>
+<tr>
+<td align="left">tid</td>
+<td align="left">string</td>
+<td align="left">交易号</td>
+<td align="left">8600000100001800000040</td>
+</tr>
+<tr>
+<td align="left">auth_code</td>
+<td align="left">string</td>
+<td align="left">条码或二维码</td>
+<td align="left">120061098828009406</td>
+</tr>
+</tbody>
+</table>
+
+<p>正确返回数据：</p>
+
+<pre><code>{
+    "result": "ok"
+}
+</code></pre>
+
+<h3>
+<a id="请求支付宝扫码支付" class="anchor" href="#%E8%AF%B7%E6%B1%82%E6%94%AF%E4%BB%98%E5%AE%9D%E6%89%AB%E7%A0%81%E6%94%AF%E4%BB%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>请求支付宝扫码支付</h3>
+
+<p>将支付宝返回的二维码信息展示给用户，由用户扫描二维码完成订单支付。</p>
+
+<blockquote>
+<p>接口：/transaction/alipay/qr/get</p>
+</blockquote>
+
+<p>调用参数：</p>
+
+<table>
+<thead>
+<tr>
+<th align="left">名称</th>
+<th align="left">类型</th>
+<th align="left">说明</th>
+<th align="left">示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">app_id</td>
+<td align="left">string</td>
+<td align="left">App ID</td>
+<td align="left">c4ca4238a0b923820dcc509a6f75849b</td>
+</tr>
+<tr>
+<td align="left">tid</td>
+<td align="left">string</td>
+<td align="left">交易号</td>
+<td align="left">8600000100001800000040</td>
+</tr>
+</tbody>
+</table>
+
+<p>正确返回数据：
+用于生成支付宝扫码付的二维码字符串。</p>
+
+<pre><code>{
+    "result": "https://qr.alipay.com/baxcwo4myomqqelrb4"
+}
+</code></pre>
+
+<h3>
+<a id="支付宝条码支付" class="anchor" href="#%E6%94%AF%E4%BB%98%E5%AE%9D%E6%9D%A1%E7%A0%81%E6%94%AF%E4%BB%98" aria-hidden="true"><span class="octicon octicon-link"></span></a>支付宝条码支付</h3>
+
+<p>收银员使用扫码设备读取用户手机支付宝“付款码”后，将二维码或条码信息通过本接口上送至支付宝发起支付。</p>
+
+<blockquote>
+<p>接口：/transaction/alipay/barcode</p>
+</blockquote>
+
+<p>调用参数：</p>
+
+<table>
+<thead>
+<tr>
+<th align="left">名称</th>
+<th align="left">类型</th>
+<th align="left">说明</th>
+<th align="left">示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">app_id</td>
+<td align="left">string</td>
+<td align="left">App ID</td>
+<td align="left">c4ca4238a0b923820dcc509a6f75849b</td>
+</tr>
+<tr>
+<td align="left">tid</td>
+<td align="left">string</td>
+<td align="left">交易号</td>
+<td align="left">8600000100001800000040</td>
+</tr>
+<tr>
+<td align="left">auth_code</td>
+<td align="left">string</td>
+<td align="left">条码或二维码</td>
+<td align="left">120061098828009406</td>
+</tr>
+</tbody>
+</table>
+
+<p>正确返回数据：</p>
+
+<pre><code>{
+    "result": "ok"
+}
+</code></pre>
+
+<p><a name="%E6%95%B0%E6%8D%AEAPI%E6%8E%A5%E5%8F%A3"></a></p>
+
+<h2>
+<a id="数据api接口" class="anchor" href="#%E6%95%B0%E6%8D%AEapi%E6%8E%A5%E5%8F%A3" aria-hidden="true"><span class="octicon octicon-link"></span></a>数据API接口</h2>
+
+<p>调用数据接口前需要获得设备授权及AccessToken。</p>
+
+<h3>
+<a id="一日交易详情" class="anchor" href="#%E4%B8%80%E6%97%A5%E4%BA%A4%E6%98%93%E8%AF%A6%E6%83%85" aria-hidden="true"><span class="octicon octicon-link"></span></a>一日交易详情</h3>
+
+<p>返回当日的所有收款通道（现金、微信、支付宝）的交易统计，包括交易金额和笔数。</p>
+
+<blockquote>
+<p>接口：/data/daily</p>
+</blockquote>
+
+<p>调用参数：</p>
+
+<table>
+<thead>
+<tr>
+<th align="left">名称</th>
+<th align="left">类型</th>
+<th align="left">说明</th>
+<th align="left">示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">app_id</td>
+<td align="left">string</td>
+<td align="left">App ID</td>
+<td align="left">c4ca4238a0b923820dcc509a6f75849b</td>
+</tr>
+<tr>
+<td align="left">device_id</td>
+<td align="left">string</td>
+<td align="left">设备唯一标识</td>
+<td align="left">3826ef14abfa52ca</td>
+</tr>
+<tr>
+<td align="left">on</td>
+<td align="left">string</td>
+<td align="left">交易日期</td>
+<td align="left">20151126</td>
+</tr>
+</tbody>
+</table>
+
+<p>正确返回数据：</p>
+
+<pre><code>{
+    "result": {
+        "items": {
+            "cash": {
+                "amount": 5.7,
+                "trades": 10
+            },
+            "alipay": {
+                "amount": 12.05,
+                "trades": 50
+            },
+            "weixin": {
+                "amount": 82.25,
+                "trades": 40
+            }
+        },
+        "total": {
+            "amount": 100,
+            "trades": 100
+        }
+    }
+}
+</code></pre>
+
+<h3>
+<a id="一周交易详情" class="anchor" href="#%E4%B8%80%E5%91%A8%E4%BA%A4%E6%98%93%E8%AF%A6%E6%83%85" aria-hidden="true"><span class="octicon octicon-link"></span></a>一周交易详情</h3>
+
+<p>返回当天起往前一周的的所有收款通道（现金、微信、支付宝）的交易统计，包括交易金额和笔数。</p>
+
+<blockquote>
+<p>接口：/data/weekly</p>
+</blockquote>
+
+<p>调用参数：</p>
+
+<table>
+<thead>
+<tr>
+<th align="left">名称</th>
+<th align="left">类型</th>
+<th align="left">说明</th>
+<th align="left">示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">app_id</td>
+<td align="left">string</td>
+<td align="left">App ID</td>
+<td align="left">c4ca4238a0b923820dcc509a6f75849b</td>
+</tr>
+<tr>
+<td align="left">device_id</td>
+<td align="left">string</td>
+<td align="left">设备唯一标识</td>
+<td align="left">3826ef14abfa52ca</td>
+</tr>
+<tr>
+<td align="left">on</td>
+<td align="left">string</td>
+<td align="left">交易日期</td>
+<td align="left">20151126</td>
+</tr>
+</tbody>
+</table>
+
+<p>正确返回数据：</p>
+
+<pre><code>{
+    "result": {
+        "amount": {
+            "cash": [
+                102.5,
+                195.1,
+                140,
+                110.3,
+                208,
+                161,
+                164
+            ],
+            "alipay": [
+                700.5,
+                565.1,
+                580,
+                610.3,
+                804,
+                761,
+                828
+            ],
+            "weixin": [
+                630.5,
+                475.1,
+                420,
+                560.3,
+                704,
+                651,
+                681
+            ]
+        },
+        "trades": {
+            "cash": [
+                20,
+                23,
+                14,
+                19,
+                21,
+                16,
+                19
+            ],
+            "alipay": [
+                43,
+                56,
+                58,
+                61,
+                80,
+                76,
+                82
+            ],
+            "weixin": [
+                63,
+                47,
+                42,
+                56,
+                74,
+                61,
+                64
+            ]
+        }
+    }
+}
+</code></pre>
+
+<h3>
+<a id="帐单列表" class="anchor" href="#%E5%B8%90%E5%8D%95%E5%88%97%E8%A1%A8" aria-hidden="true"><span class="octicon octicon-link"></span></a>帐单列表</h3>
+
+<p>返回指定日期范围内的结算帐单列表，含金额与交易笔数及小计。</p>
+
+<blockquote>
+<p>接口：/data/bill/list</p>
+</blockquote>
+
+<p>调用参数：</p>
+
+<table>
+<thead>
+<tr>
+<th align="left">名称</th>
+<th align="left">类型</th>
+<th align="left">说明</th>
+<th align="left">示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">app_id</td>
+<td align="left">string</td>
+<td align="left">App ID</td>
+<td align="left">c4ca4238a0b923820dcc509a6f75849b</td>
+</tr>
+<tr>
+<td align="left">device_id</td>
+<td align="left">string</td>
+<td align="left">设备唯一标识</td>
+<td align="left">3826ef14abfa52ca</td>
+</tr>
+<tr>
+<td align="left">from</td>
+<td align="left">string</td>
+<td align="left">起始日期</td>
+<td align="left">20151101</td>
+</tr>
+<tr>
+<td align="left">to</td>
+<td align="left">string</td>
+<td align="left">截止日期</td>
+<td align="left">20151130</td>
+</tr>
+</tbody>
+</table>
+
+<p>正确返回数据：</p>
+
+<pre><code>{
+    "result": [
+        {
+            "on": "2015-11-23",
+            "amount": 651.5,
+            "trades": 143,
+            "settlements": [
+                {
+                    "stm_id": "86000001000001",
+                    "created_at": "2015-11-23 08:03:49",
+                    "settled_at": "2015-11-23 11:58:30",
+                    "amount": 123.5,
+                    "trades": 21
+                },
+                {
+                    "stm_id": "86000001000002",
+                    "created_at": "2015-11-23 11:59:00",
+                    "settled_at": "2015-11-23 15:58:30",
+                    "amount": 160.9,
+                    "trades": 35
+                },
+                {
+                    "stm_id": "86000001000003",
+                    "created_at": "2015-11-23 15:59:00",
+                    "settled_at": "2015-11-23 22:58:30",
+                    "amount": 367.1,
+                    "trades": 87
+                }
+            ]
+        },
+        {
+            "on": "2015-11-24",
+            "amount": 651.5,
+            "trades": 143,
+            "settlements": [
+                {
+                    "stm_id": "86000001000001",
+                    "created_at": "2015-11-24 08:03:49",
+                    "settled_at": "2015-11-24 11:58:30",
+                    "amount": 123.5,
+                    "trades": 21
+                },
+                {
+                    "stm_id": "86000001000002",
+                    "created_at": "2015-11-24 11:59:00",
+                    "settled_at": "2015-11-24 15:58:30",
+                    "amount": 160.9,
+                    "trades": 35
+                },
+                {
+                    "stm_id": "86000001000002",
+                    "created_at": "2015-11-24 15:59:00",
+                    "settled_at": "2015-11-24 22:58:30",
+                    "amount": 367.1,
+                    "trades": 87
+                }
+            ]
+        },
+        {
+            "on": "2015-11-25",
+            "amount": 651.5,
+            "trades": 143,
+            "settlements": [
+                {
+                    "stm_id": "86000001000003",
+                    "created_at": "2015-11-25 08:03:49",
+                    "settled_at": "2015-11-25 11:58:30",
+                    "amount": 123.5,
+                    "trades": 21
+                },
+                {
+                    "stm_id": "86000001000002",
+                    "created_at": "2015-11-25 11:59:00",
+                    "settled_at": "2015-11-25 15:58:30",
+                    "amount": 160.9,
+                    "trades": 35
+                },
+                {
+                    "stm_id": "86000001000003",
+                    "created_at": "2015-11-25 15:59:00",
+                    "settled_at": "2015-11-25 22:58:30",
+                    "amount": 367.1,
+                    "trades": 87
+                }
+            ]
+        }
+    ]
+}
+</code></pre>
+
+<h3>
+<a id="帐单明细" class="anchor" href="#%E5%B8%90%E5%8D%95%E6%98%8E%E7%BB%86" aria-hidden="true"><span class="octicon octicon-link"></span></a>帐单明细</h3>
+
+<p>返回指定结算帐单及相关交易详情信息。</p>
+
+<blockquote>
+<p>接口：/data/bill/detail</p>
+</blockquote>
+
+<p>调用参数：</p>
+
+<table>
+<thead>
+<tr>
+<th align="left">名称</th>
+<th align="left">类型</th>
+<th align="left">说明</th>
+<th align="left">示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">app_id</td>
+<td align="left">string</td>
+<td align="left">App ID</td>
+<td align="left">c4ca4238a0b923820dcc509a6f75849b</td>
+</tr>
+<tr>
+<td align="left">device_id</td>
+<td align="left">string</td>
+<td align="left">设备唯一标识</td>
+<td align="left">3826ef14abfa52ca</td>
+</tr>
+<tr>
+<td align="left">stm_id</td>
+<td align="left">string</td>
+<td align="left">结算帐单ID</td>
+<td align="left">86000001000003</td>
+</tr>
+</tbody>
+</table>
+
+<p>正确返回数据：</p>
+
+<pre><code>{
+    "result": {
+        "stm_id": "86000001000002",
+        "created_at": "2015-11-25 15:59:00",
+        "settled_at": "2015-11-25 22:58:30",
+        "amount": 0.18,
+        "trades": 3,
+        "total": {
+            "cash": {
+                "amount": 0.12,
+                "trades": 1
+            },
+            "weixin": {
+                "amount": 0.01,
+                "trades": 1
+            },
+            "alipay": {
+                "amount": 0.05,
+                "trades": 1
+            }
+        }
+        "transactions": [
+            {
+                "tid": "8600000100000100000009",
+                "paid_at": "2015-11-25 22:58:30",
+                "amount": 121.5,
+                "method": "weixin"
+            },
+            {
+                "tid": "8600000100000100000010",
+                "paid_at": "2015-11-25 23:01:12",
+                "amount": 98.6,
+                "method": "alipay"
+            },
+            {
+                "tid": "8600000100000100000011",
+                "paid_at": "2015-11-25 23:11:34",
+                "amount": 147,
+                "method": "cash"
+            }
+        ]
+    }
+}
+</code></pre>
+
+<h3>
+<a id="当前帐单明细" class="anchor" href="#%E5%BD%93%E5%89%8D%E5%B8%90%E5%8D%95%E6%98%8E%E7%BB%86" aria-hidden="true"><span class="octicon octicon-link"></span></a>当前帐单明细</h3>
+
+<p>返回当前正在进行中结算帐单及相关交易详情信息。</p>
+
+<blockquote>
+<p>接口：/data/bill/current</p>
+</blockquote>
+
+<p>调用参数：</p>
+
+<table>
+<thead>
+<tr>
+<th align="left">名称</th>
+<th align="left">类型</th>
+<th align="left">说明</th>
+<th align="left">示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">app_id</td>
+<td align="left">string</td>
+<td align="left">App ID</td>
+<td align="left">c4ca4238a0b923820dcc509a6f75849b</td>
+</tr>
+<tr>
+<td align="left">store_id</td>
+<td align="left">string</td>
+<td align="left">门店ID</td>
+<td align="left">5642e198a4826ee461311319</td>
+</tr>
+<tr>
+<td align="left">device_id</td>
+<td align="left">string</td>
+<td align="left">设备唯一标识</td>
+<td align="left">3826ef14abfa52ca</td>
+</tr>
+<tr>
+<td align="left">job_id</td>
+<td align="left">string</td>
+<td align="left">工号</td>
+<td align="left">1001</td>
+</tr>
+</tbody>
+</table>
+
+<p>正确返回数据：</p>
+
+<pre><code>{
+    "result": {
+        "stm_id": "86000001000002",
+        "created_at": "2015-11-25 15:59:00",
+        "settled_at": "2015-11-25 22:58:30",
+        "amount": 0.18,
+        "trades": 3,
+        "total": {
+            "cash": {
+                "amount": 0.12,
+                "trades": 1
+            },
+            "weixin": {
+                "amount": 0.01,
+                "trades": 1
+            },
+            "alipay": {
+                "amount": 0.05,
+                "trades": 1
+            }
+        }
+        "transactions": [
+            {
+                "tid": "8600000100000100000009",
+                "paid_at": "2015-11-25 22:58:30",
+                "amount": 121.5,
+                "method": "weixin"
+            },
+            {
+                "tid": "8600000100000100000010",
+                "paid_at": "2015-11-25 23:01:12",
+                "amount": 98.6,
+                "method": "alipay"
+            },
+            {
+                "tid": "8600000100000100000011",
+                "paid_at": "2015-11-25 23:11:34",
+                "amount": 147,
+                "method": "cash"
+            }
+        ]
+    }
+}
+</code></pre>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/leeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee/hiposdocs">Hiposdocs</a> is maintained by <a href="https://github.com/leeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee">leeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
