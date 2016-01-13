@@ -113,6 +113,48 @@ Authorization: Basic YzRjYTQyMzhhMGI5MjM4MjBkY2M1MDlhNmY3NTg0OWI6YzQwOTY2ZThmNDB
 }
 ```
 
+### 发起核销业务
+向平台发起二维码核销业务，获得全平台唯一交易号。
+> 接口：/transaction/qr
+
+调用参数：
+
+| 名称        | 类型        | 说明          | 示例                              |
+| :---------- | :---------- | :------------ | :-------------------------------- |
+| app_id      | string      | App ID        | c4ca4238a0b923820dcc509a6f75849b  |
+| merchant_id | string      | 商户ID        | 1                                 |
+| store_id    | string      | 门店ID        | 5642e198a4826ee461311319          |
+| device_id   | string      | 设备唯一标识  | 3826ef14abfa52ca                  |
+| job_id      | string      | 工号          | 1001                              |
+| code        | string      | 二维码文本    | YSC10011971                       |
+
+正确返回数据：
+```
+// 二维码无效
+{
+  "error": "invalid code"
+}
+
+// 不需要支付
+{
+  "result": "ok"
+}
+
+// 需要支付
+{
+  "result": {
+    "__v": 0,
+    "_id": "8600000100000200000011",
+    "pay_expire": "2015-11-13T04:07:04.512Z",
+    "created_at": "2015-11-13T03:37:04.544Z",
+    "amount": 0.01,
+    "clerk_id": "5642e198a4826ee46131131a",
+    "store_id": "5642e198a4826ee461311319",
+    "stm_id": "86000001000002"
+  }
+}
+```
+
 ### 交班结算
 结算当前帐单
 > 接口：/transaction/settle
