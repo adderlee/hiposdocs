@@ -135,7 +135,7 @@ Authorization: Basic YzRjYTQyMzhhMGI5MjM4MjBkY2M1MDlhNmY3NTg0OWI6YzQwOTY2ZThmNDB
   "error": "invalid code"
 }
 
-// 不需要支付
+// 核销成功
 {
   "result": "ok"
 }
